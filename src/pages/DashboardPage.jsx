@@ -21,6 +21,7 @@ function DashboardPage() {
   const dataGroupedCustomer = useSelector((state) => state.dashboard.dataGroupedCustomer);
   const dataGroupedItemBrand = useSelector((state) => state.dashboard.dataGroupedItemBrand);
   const dataMonthlyDateCome = useSelector((state) => state.dashboard.dataMonthlyDateCome);
+  const transactionStatus = useSelector((state) => state.transaction.transactionStatus);
   const dataItem = useSelector((state) => state.item.data);
   const dataCustomer = useSelector((state) => state.customer.data);
 
@@ -111,8 +112,13 @@ function DashboardPage() {
 
         <select name="transaction_status" id="transaction_status" value={formData.transaction_status} onChange={handleChange}>
           <option value=""></option>
-          <option value="reserved">reserved</option>
-          <option value="taken">taken</option>
+          {transactionStatus.length > 0 &&
+            transactionStatus.map((data, i) => {
+              return <option value={data.id} key={data.id}>
+                {data.id}
+              </option>
+            })
+          }
         </select>
 
         <button type="submit">Find</button>
