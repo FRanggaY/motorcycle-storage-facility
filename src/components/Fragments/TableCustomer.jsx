@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../../redux/slices/customerSlice';
-import { fetchCustomersPaginate } from '../../api/customerApi';
+import { fetchCustomers } from '../../api/customerApi';
 
 export const TableCustomer= ({ onEdit, onDelete }) => {
   const dispatch = useDispatch();
@@ -10,8 +10,13 @@ export const TableCustomer= ({ onEdit, onDelete }) => {
   const itemsPerPage = useSelector((state) => state.customer.itemsPerPage);
   const totalPages = useSelector((state) => state.customer.totalPages);
 
+  const customParams = {
+    size: itemsPerPage,
+    offset: currentPage,
+  };
+
   useEffect(() => {
-    fetchCustomersPaginate(dispatch, currentPage, itemsPerPage);
+    fetchCustomers(dispatch, customParams);
   }, [currentPage, dispatch, itemsPerPage]);
 
   const handlePageChange = (page) => {

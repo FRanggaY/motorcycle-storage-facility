@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCustomer, setItemsPerPage } from '../redux/slices/customerSlice';
 import { TableCustomer } from '../components/Fragments/TableCustomer';
-import { fetchCustomersPaginate } from '../api/customerApi';
+import { fetchCustomers } from '../api/customerApi';
 
 function CustomerPage() {
   const dispatch = useDispatch();
@@ -10,6 +10,11 @@ function CustomerPage() {
   const [editCustomerId, setEditCustomerId] = useState(null);
   const currentPage = useSelector((state) => state.customer.currentPage);
   const itemsPerPage = useSelector((state) => state.customer.itemsPerPage);
+
+  const customParams = {
+    size: itemsPerPage,
+    offset: currentPage,
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,7 +35,7 @@ function CustomerPage() {
       });
 
       if (response.ok) {
-        fetchCustomersPaginate(dispatch, currentPage, itemsPerPage);
+        fetchCustomers(dispatch, customParams);
         setEditCustomerId(null);
       } else {
         console.error('Failed to edit customer:', response.statusText);
@@ -51,7 +56,7 @@ function CustomerPage() {
       });
 
       if (response.ok) {
-        fetchCustomersPaginate(dispatch, currentPage, itemsPerPage);
+        fetchCustomers(dispatch, customParams);
       } else {
         console.error('Failed to create customer:', response.statusText);
       }
