@@ -57,6 +57,7 @@ const fetchDataStat = async (dispatch, setData, endpoint, customParams = {}) => 
       const data = await response.json();
       dispatch(setData(data.data));
     } else {
+      dispatch(setData([]));
       console.error(`Failed to fetch stat ${endpoint}:`, response.statusText);
     }
   } catch (error) {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDashboardGroupedCustomer, fetchDashboardGroupedItemBrand, fetchDashboardMonthlyDateCome, fetchDashboardTotalCustomer, fetchDashboardTotalItem, fetchDashboardTotalTransaction } from '../api/dashboardApi';
+import { fetchItems } from '../api/itemApi';
+import { fetchCustomers } from '../api/customerApi';
 import { fetchDataIfNeeded } from '../utils/fetchData';
 
 function DashboardPage() {
@@ -19,12 +21,16 @@ function DashboardPage() {
   const dataGroupedCustomer = useSelector((state) => state.dashboard.dataGroupedCustomer);
   const dataGroupedItemBrand = useSelector((state) => state.dashboard.dataGroupedItemBrand);
   const dataMonthlyDateCome = useSelector((state) => state.dashboard.dataMonthlyDateCome);
+  const dataItem = useSelector((state) => state.item.data);
+  const dataCustomer = useSelector((state) => state.customer.data);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   
   useEffect(() => {
+    fetchItems(dispatch);
+    fetchCustomers(dispatch);
     fetchDashboardTotalCustomer(dispatch);
     fetchDashboardTotalItem(dispatch);
     fetchDashboardTotalTransaction(dispatch);
@@ -81,12 +87,25 @@ function DashboardPage() {
 
         <select name="item_id" id="item_id" value={formData.item_id} onChange={handleChange}>
           <option value=""></option>
+          {dataItem.length > 0 &&
+            dataItem.map((data, i) => {
+              return <option value={data.id} key={data.id}>
+                {data.title}
+              </option>
+            })
+          }
           <option value="1">beat</option>
         </select>
         
         <select name="customer_id" id="customer_id" value={formData.customer_id} onChange={handleChange}>
           <option value=""></option>
-          <option value="1">Andi</option>
+          {dataCustomer.length > 0 &&
+            dataCustomer.map((data, i) => {
+              return <option value={data.id} key={data.id}>
+                {data.name}
+              </option>
+            })
+          }
         </select>
 
         <input type="datetime-local" name="date_come" id="date_come" value={formData.date_come} onChange={handleChange} />
