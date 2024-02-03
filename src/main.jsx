@@ -8,6 +8,7 @@ import CustomerPage from './pages/customerPage.jsx'
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import './App.css'
+import DashboardPage from './pages/dashboardPage'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/customer",
     element: <CustomerPage/>
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardPage/>
   }
 ]);
 
