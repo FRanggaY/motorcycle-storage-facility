@@ -94,7 +94,6 @@ function DashboardPage() {
               </option>
             })
           }
-          <option value="1">beat</option>
         </select>
         
         <select name="customer_id" id="customer_id" value={formData.customer_id} onChange={handleChange}>
