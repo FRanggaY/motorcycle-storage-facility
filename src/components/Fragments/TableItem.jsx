@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../../redux/slices/itemSlice';
-import { fetchItemsPaginate } from '../../api/itemApi';
+import { fetchItems } from '../../api/itemApi';
 
 export const TableItem = ({ onEdit, onDelete }) => {
   const dispatch = useDispatch();
@@ -10,8 +10,13 @@ export const TableItem = ({ onEdit, onDelete }) => {
   const itemsPerPage = useSelector((state) => state.item.itemsPerPage);
   const totalPages = useSelector((state) => state.item.totalPages);
 
+  const customParams = {
+    size: itemsPerPage,
+    offset: currentPage,
+  };
+
   useEffect(() => {
-    fetchItemsPaginate(dispatch, currentPage, itemsPerPage);
+    fetchItems(dispatch, customParams);
   }, [currentPage, dispatch, itemsPerPage]);
 
   const handlePageChange = (page) => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem, setItemsPerPage } from '../redux/slices/itemSlice';
 import { TableItem } from '../components/Fragments/TableItem';
-import { fetchItemsPaginate } from '../api/itemApi';
+import { fetchItems } from '../api/itemApi';
 
 function ItemPage() {
   const dispatch = useDispatch();
@@ -10,6 +10,11 @@ function ItemPage() {
   const [editItemId, setEditItemId] = useState(null);
   const currentPage = useSelector((state) => state.item.currentPage);
   const itemsPerPage = useSelector((state) => state.item.itemsPerPage);
+
+  const customParams = {
+    size: itemsPerPage,
+    offset: currentPage,
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,7 +35,7 @@ function ItemPage() {
       });
 
       if (response.ok) {
-        fetchItemsPaginate(dispatch, currentPage, itemsPerPage);
+        fetchItems(dispatch, customParams);
         setEditItemId(null);
       } else {
         console.error('Failed to edit item:', response.statusText);
@@ -51,7 +56,7 @@ function ItemPage() {
       });
 
       if (response.ok) {
-        fetchItemsPaginate(dispatch, currentPage, itemsPerPage);
+        fetchItems(dispatch, customParams);
       } else {
         console.error('Failed to create item:', response.statusText);
       }
