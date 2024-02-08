@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import ErrorPage from './pages/ErrorPage.jsx'
 import ItemPage from './pages/ItemPage.jsx'
@@ -9,17 +8,12 @@ import TransactionPage from './pages/TransactionPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx'
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import './App.css'
+import LandingPage from './pages/LandingPage'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>
-      <a href="/dashboard">dashboard</a>
-      <a href="/item">item</a>
-      <a href="/customer">customer</a>
-      <a href="/transaction">transaction</a>
-    </div>,
+    element: <LandingPage />,
     errorElement: <ErrorPage />
   },
   {
