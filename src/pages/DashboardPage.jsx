@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import getLPTheme from '../utils/getLPTheme';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDashboardGroupedCustomer, fetchDashboardGroupedItemBrand, fetchDashboardMonthlyDateCome, fetchDashboardTotalCustomer, fetchDashboardTotalItem, fetchDashboardTotalTransaction } from '../api/dashboardApi';
 import { fetchItems } from '../api/itemApi';
 import { fetchCustomers } from '../api/customerApi';
 import { fetchDataIfNeeded } from '../utils/fetchData';
+import { Box, Button, Card, CardContent, Container, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import NavAppBar from '../components/Common/NavAppBar';
 
 function DashboardPage() {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({ 
+  const mode = useSelector((state) => state.theme.mode);
+  const LPtheme = createTheme(getLPTheme(mode));
+  const [formData, setFormData] = useState({
     year: '',
     brand: '',
     item_id: '',
@@ -28,7 +34,7 @@ function DashboardPage() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
   useEffect(() => {
     fetchItems(dispatch);
     fetchCustomers(dispatch);
@@ -46,7 +52,7 @@ function DashboardPage() {
     const customParamsTotalItem = {
       brand: formData.brand,
     };
-    
+
     const customParamsTotalTransaction = {
       item_id: formData.item_id,
       customer_id: formData.customer_id,
@@ -60,13 +66,13 @@ function DashboardPage() {
       customer_id: formData.customer_id,
       transaction_status: formData.transaction_status,
     };
-    
+
     const customParamsGroupedItemBrand = {
       year: formData.year,
       customer_id: formData.customer_id,
       transaction_status: formData.transaction_status,
     };
-    
+
     const customParamsGroupedCustomer = {
       year: formData.year,
       item_id: formData.item_id,
@@ -81,54 +87,164 @@ function DashboardPage() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="number" name="year" value={formData.year} onChange={handleChange} placeholder="Enter year" />
-        <input type="text" name="brand" value={formData.brand} onChange={handleChange} placeholder="Enter brand" />
+    <ThemeProvider theme={LPtheme}>
+      <CssBaseline />
+      <NavAppBar />
+      <Box sx={{ bgcolor: 'background.default', pt: { xs: 4, sm: 12 }, pb: { xs: 8, sm: 16 }, }}>
+        <Container>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={1}>
+                <TextField
+                  id="year"
+                  name="year"
+                  label="Tahun"
+                  type="number"
+                  value={formData.year}
+                  fullWidth
+                  variant="standard"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <TextField
+                  id="brand"
+                  name="brand"
+                  label="Brand Motor"
+                  type="text"
+                  value={formData.brand}
+                  fullWidth
+                  variant="standard"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <FormControl fullWidth>
+                  <InputLabel id="select-label-item-id">Kategori Motor</InputLabel>
+                  <Select
+                    labelId="select-label-item-id"
+                    name="item_id"
+                    id="select_item_id"
+                    value={formData.item_id}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {dataItem.length > 0 &&
+                      dataItem.map((data, i) => {
+                        return <MenuItem value={data.id} key={data.id}>
+                          {data.title}
+                        </MenuItem>
+                      })
+                    }
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <FormControl fullWidth>
+                  <InputLabel id="select-label-customer-id">Customer</InputLabel>
+                  <Select
+                    labelId="select-label-customer-id"
+                    name="customer_id"
+                    id="select_customer_id"
+                    value={formData.customer_id}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {dataCustomer.length > 0 &&
+                      dataCustomer.map((data, i) => {
+                        return <MenuItem value={data.id} key={data.id}>
+                          {data.name}
+                        </MenuItem>
+                      })
+                    }
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <TextField
+                  id="date_come"
+                  name="date_come"
+                  type="datetime-local"
+                  value={formData.date_come}
+                  fullWidth
+                  variant="standard"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <FormControl fullWidth>
+                  <InputLabel id="select-label-transaction_status">Transaksi Status</InputLabel>
+                  <Select
+                    labelId="select-label-transaction_status"
+                    name="transaction_status"
+                    id="select_transaction_status"
+                    value={formData.transaction_status}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {transactionStatus.length > 0 &&
+                      transactionStatus.map((data, i) => {
+                        return <MenuItem value={data.id} key={data.id}>
+                          {data.id}
+                        </MenuItem>
+                      })
+                    }
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={1}>
+                <Button type='submit' variant='contained'>Find</Button>
+              </Grid>
+            </Grid>
+          </form>
 
-        <select name="item_id" id="item_id" value={formData.item_id} onChange={handleChange}>
-          <option value=""></option>
-          {dataItem.length > 0 &&
-            dataItem.map((data, i) => {
-              return <option value={data.id} key={data.id}>
-                {data.title}
-              </option>
-            })
-          }
-        </select>
-        
-        <select name="customer_id" id="customer_id" value={formData.customer_id} onChange={handleChange}>
-          <option value=""></option>
-          {dataCustomer.length > 0 &&
-            dataCustomer.map((data, i) => {
-              return <option value={data.id} key={data.id}>
-                {data.name}
-              </option>
-            })
-          }
-        </select>
+          <Grid container spacing={2} sx={{ marginTop: '20px' }}>
+            <Grid item xs={12} sm={4}>
+              <Card>
+                <CardContent>
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    Total Customer
+                  </Typography>
+                  <Typography variant="h5" component="div">
+                    {totalCustomer}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Card>
+                <CardContent>
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    Total Kategori Motor
+                  </Typography>
+                  <Typography variant="h5" component="div">
+                    {totalItem}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Card>
+                <CardContent>
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    Total Transaksi
+                  </Typography>
+                  <Typography variant="h5" component="div">
+                    {totalTransaction}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
 
-        <input type="datetime-local" name="date_come" id="date_come" value={formData.date_come} onChange={handleChange} />
-
-        <select name="transaction_status" id="transaction_status" value={formData.transaction_status} onChange={handleChange}>
-          <option value=""></option>
-          {transactionStatus.length > 0 &&
-            transactionStatus.map((data, i) => {
-              return <option value={data.id} key={data.id}>
-                {data.id}
-              </option>
-            })
-          }
-        </select>
-
-        <button type="submit">Find</button>
-      </form>
-
-      <div>
-        <p>total customer : {totalCustomer}</p>
-        <p>total item : {totalItem}</p>
-        <p>total transaction : {totalTransaction}</p>
-      </div>
+        </Container>
+      </Box>
 
       <div>
         <h4>Frequently Based Customer</h4>
@@ -140,7 +256,7 @@ function DashboardPage() {
           })
         }
       </div>
-      
+
       <div>
         <h4>Frequently Based Brand</h4>
         {dataGroupedItemBrand.length > 0 &&
@@ -151,7 +267,7 @@ function DashboardPage() {
           })
         }
       </div>
-      
+
       <div>
         <h4>Frequently Monthly DateCome</h4>
         {dataMonthlyDateCome.length > 0 &&
@@ -163,7 +279,7 @@ function DashboardPage() {
         }
       </div>
 
-    </div>
+    </ThemeProvider>
   );
 }
 export default DashboardPage;

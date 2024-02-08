@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage, setItemsPerPage } from '../../redux/slices/itemSlice';
 import { fetchItems } from '../../api/itemApi';
-import { Button, FormControl, InputLabel, MenuItem, Pagination, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, FormControl, MenuItem, Pagination, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 export const TableItem = ({ onEdit, onDelete, itemsPerPageList }) => {
   const dispatch = useDispatch();

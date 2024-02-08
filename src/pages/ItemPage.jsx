@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import getLPTheme from '../utils/getLPTheme';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteItem, setItemsPerPage } from '../redux/slices/itemSlice';
+import { deleteItem } from '../redux/slices/itemSlice';
 import { TableItem } from '../components/Fragments/TableItem';
 import { fetchItems } from '../api/itemApi';
 import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
