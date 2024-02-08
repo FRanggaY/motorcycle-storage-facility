@@ -8,6 +8,7 @@ import { fetchCustomers } from '../api/customerApi';
 import { fetchDataIfNeeded } from '../utils/fetchData';
 import { Box, Button, Card, CardContent, Container, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import NavAppBar from '../components/Common/NavAppBar';
+import Chart from "react-apexcharts";
 
 function DashboardPage() {
   const dispatch = useDispatch();
@@ -243,41 +244,98 @@ function DashboardPage() {
             </Grid>
           </Grid>
 
+          <Grid container spacing={2} sx={{ marginTop: '20px' }}>
+            {dataGroupedCustomer.length > 0 &&
+              <Grid item xs={12} sm={6}>
+                <Chart
+                  options={{
+                    labels: dataGroupedItemBrand.map(item => item.brand),
+                    legend: {
+                      labels: {
+                        colors: mode == "light" ? 'black' : 'white'
+                      }
+                    },
+                    tooltip: {
+                      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                        const brand = w.config.labels[seriesIndex];
+                        const total = series[seriesIndex];
+                        return (
+                          '<div class="arrow_box">' +
+                          '<span>' + brand + ': ' + total + 'transaksi </span>' +
+                          '</div>'
+                        );
+                      }
+                    }
+                  }}
+                  series={dataGroupedItemBrand.map(item => item.total)}
+                  type="donut"
+                  width="500"
+                />
+              </Grid>
+            }
+            {dataGroupedCustomer.length > 0 &&
+              <Grid item xs={12} sm={6}>
+                <Chart style={{ color: 'black' }}
+                  options={{
+                    legend: {
+                      labels: {
+                        colors: mode == "light" ? 'black' : 'white'
+                      }
+                    },
+                    xaxis: {
+                      categories: dataGroupedCustomer.map(data => data.name),
+                    },
+                    tooltip: {
+                      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                        const category = w.globals.labels[dataPointIndex];
+                        const value = series[seriesIndex][dataPointIndex];
+                        return '<div class="arrow_box">' +
+                          '<span>' + category + ': ' + value + ' transaksi </span>' +
+                          '</div>';
+                      }
+                    }
+                  }}
+                  series={[{
+                    data: dataGroupedCustomer.map(data => data.total)
+                  }]}
+                  type="bar"
+                  width="500"
+                />
+              </Grid>
+            }
+            {dataMonthlyDateCome.length > 0 &&
+              <Grid item xs={12} sm={6}>
+                <Chart style={{ color: 'black' }}
+                  options={{
+                    legend: {
+                      labels: {
+                        colors: mode == "light" ? 'black' : 'white'
+                      }
+                    },
+                    xaxis: {
+                      categories: dataMonthlyDateCome.map(data => data.month),
+                    },
+                    tooltip: {
+                      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                        const value = series[seriesIndex][dataPointIndex];
+                        return '<div class="arrow_box">' +
+                          '<span>' +  value + ' transaksi </span>' +
+                          '</div>';
+                      }
+                    }
+                  }}
+                  series={[{
+                    data: dataMonthlyDateCome.map(data => data.total)
+                  }]}
+                  type="line"
+                  width="500"
+                />
+              </Grid>
+            }
+          </Grid>
+
         </Container>
       </Box>
-
-      <div>
-        <h4>Frequently Based Customer</h4>
-        {dataGroupedCustomer.length > 0 &&
-          dataGroupedCustomer.map((data, i) => {
-            return <div key={data.name}>
-              {data.name} with total {data.total}
-            </div>
-          })
-        }
-      </div>
-
-      <div>
-        <h4>Frequently Based Brand</h4>
-        {dataGroupedItemBrand.length > 0 &&
-          dataGroupedItemBrand.map((data, i) => {
-            return <div key={data.brand}>
-              {data.brand} with total {data.total}
-            </div>
-          })
-        }
-      </div>
-
-      <div>
-        <h4>Frequently Monthly DateCome</h4>
-        {dataMonthlyDateCome.length > 0 &&
-          dataMonthlyDateCome.map((data, i) => {
-            return <div key={data.month}>
-              {data.month} with total {data.total}
-            </div>
-          })
-        }
-      </div>
 
     </ThemeProvider>
   );
