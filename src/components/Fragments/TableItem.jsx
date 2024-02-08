@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage } from '../../redux/slices/itemSlice';
+import { setCurrentPage, setItemsPerPage } from '../../redux/slices/itemSlice';
 import { fetchItems } from '../../api/itemApi';
+import { Button, FormControl, InputLabel, MenuItem, Pagination, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-export const TableItem = ({ onEdit, onDelete }) => {
+export const TableItem = ({ onEdit, onDelete, itemsPerPageList }) => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.item.data);
   const currentPage = useSelector((state) => state.item.currentPage);
@@ -15,45 +16,71 @@ export const TableItem = ({ onEdit, onDelete }) => {
     offset: currentPage,
   };
 
+  const columns = [
+    { id: 1, label: 'Brand' },
+    { id: 2, label: 'Title' },
+    { id: 3, label: 'Action' },
+  ]
+
   useEffect(() => {
     fetchItems(dispatch, customParams);
   }, [currentPage, dispatch, itemsPerPage]);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (event, page) => {
     dispatch(setCurrentPage(page));
   };
 
+  const handleChangeItemPerPageSelect = (e) => {
+    dispatch(setItemsPerPage(e.target.value));
+  };
+
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Brand</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
+    <TableContainer component={Paper} sx={{ marginTop: '20px', padding: '10px' }} >
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            {
+              columns.map((column) => {
+                return <TableCell key={column.id}>{column.label}</TableCell>
+              })
+            }
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {items.length > 0 &&
             items.map((item) => (
-              <tr key={item.id}>
-                <td>{item.title}</td>
-                <td>{item.brand}</td>
-                <td>
-                  <button onClick={() => onEdit(item)}>Edit</button>
-                  <button onClick={() => onDelete(item.id)}>Delete</button>
-                </td>
-              </tr>
+              <TableRow key={item.id}>
+                <TableCell>{item.brand}</TableCell>
+                <TableCell>{item.title}</TableCell>
+                <TableCell>
+                  <Button sx={{ marginLeft: '5px' }} variant='contained' color='warning' onClick={() => onEdit(item)}>Edit</Button>
+                  <Button sx={{ marginLeft: '5px' }} variant='contained' color='error' onClick={() => onDelete(item.id)}>Delete</Button>
+                </TableCell>
+              </TableRow>
             ))}
-        </tbody>
-      </table>
-      <div>
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <button key={index + 1} onClick={() => handlePageChange(index + 1)}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
-    </div>
+        </TableBody>
+      </Table>
+
+      <Stack direction={'row'} spacing={2} justifyContent="space-between">
+        <Pagination count={totalPages} onChange={handlePageChange} />
+
+        <FormControl>
+          <Select
+            name="item per page"
+            id="demo-simple-select-item-per-page"
+            value={itemsPerPage}
+            label="Item Per Page"
+            onChange={handleChangeItemPerPageSelect}
+          >
+            {
+              itemsPerPageList.map((item) => {
+                return <MenuItem key={item} value={item}>{item}</MenuItem>
+              })
+            }
+          </Select>
+        </FormControl>
+      </Stack>
+
+    </TableContainer>
   );
 };

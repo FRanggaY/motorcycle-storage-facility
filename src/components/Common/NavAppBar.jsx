@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -13,6 +12,8 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
 import Link from '@mui/material/Link';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMode } from '../../redux/slices/themeSlice';
 
 const logoStyle = {
   width: '140px',
@@ -20,8 +21,14 @@ const logoStyle = {
   cursor: 'pointer',
 };
 
-function NavAppBar({ mode, toggleColorMode }) {
+function NavAppBar() {
   const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
+  const mode = useSelector((state) => state.theme.mode);
+
+  const toggleColorMode = () => {
+    dispatch(setMode(mode === 'dark' ? 'light' : 'dark'));
+  };
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -84,9 +91,15 @@ function NavAppBar({ mode, toggleColorMode }) {
                 px: 0,
               }}
             >
-              <Typography color="text.secondary" sx={{ paddingLeft: '20px', paddingRight: '20px' }}>
-                {import.meta.env.VITE_REACT_TITLE_APP}
-              </Typography>
+              <Link color="text.secondary" href="/">
+                <MenuItem
+                  sx={{ py: '6px', px: '12px' }}
+                >
+                  <Typography variant="body2" color="text.primary">
+                    {import.meta.env.VITE_REACT_TITLE_APP}
+                  </Typography>
+                </MenuItem>
+              </Link>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <Link color="text.secondary" href="/dashboard">
                   <MenuItem
@@ -184,21 +197,44 @@ function NavAppBar({ mode, toggleColorMode }) {
                   >
                     <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                   </Box>
-                  <MenuItem onClick={() => scrollToSection('features')}>
-                    Features
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('testimonials')}>
-                    Testimonials
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('highlights')}>
-                    Highlights
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('pricing')}>
-                    Pricing
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+                  <Link color="text.secondary" href="/dashboard">
+                    <MenuItem
+                      sx={{ py: '6px', px: '12px' }}
+                    >
+                      <Typography variant="body2" color="text.primary">
+                        Dashboard
+                      </Typography>
+                    </MenuItem>
+                  </Link>
+                  <Link color="text.secondary" href="/item">
+                    <MenuItem
+                      sx={{ py: '6px', px: '12px' }}
+                    >
+                      <Typography variant="body2" color="text.primary">
+                        Kategori Motor
+                      </Typography>
+                    </MenuItem>
+                  </Link>
+                  <Link color="text.secondary" href="/customer">
+                    <MenuItem
+                      sx={{ py: '6px', px: '12px' }}
+                    >
+                      <Typography variant="body2" color="text.primary">
+                        Customer
+                      </Typography>
+                    </MenuItem>
+                  </Link>
+                  <Link color="text.secondary" href="/transaction">
+                    <MenuItem
+                      sx={{ py: '6px', px: '12px' }}
+                    >
+                      <Typography variant="body2" color="text.primary">
+                        Transaksi
+                      </Typography>
+                    </MenuItem>
+                  </Link>
                   <Divider />
-                  <MenuItem>
+                  {/* <MenuItem>
                     <Button
                       color="primary"
                       variant="contained"
@@ -221,7 +257,7 @@ function NavAppBar({ mode, toggleColorMode }) {
                     >
                       Sign in
                     </Button>
-                  </MenuItem>
+                  </MenuItem> */}
                 </Box>
               </Drawer>
             </Box>
@@ -231,10 +267,5 @@ function NavAppBar({ mode, toggleColorMode }) {
     </div>
   );
 }
-
-NavAppBar.propTypes = {
-  mode: PropTypes.oneOf(['dark', 'light']).isRequired,
-  toggleColorMode: PropTypes.func.isRequired,
-};
 
 export default NavAppBar;

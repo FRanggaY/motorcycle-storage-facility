@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage.jsx'
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import LandingPage from './pages/LandingPage'
+import { Toaster } from 'react-hot-toast'
 
 const router = createBrowserRouter([
   {
@@ -18,25 +19,26 @@ const router = createBrowserRouter([
   },
   {
     path: "/item",
-    element: <ItemPage/>
+    element: <ItemPage />
   },
   {
     path: "/customer",
-    element: <CustomerPage/>
+    element: <CustomerPage />
   },
   {
     path: "/transaction",
-    element: <TransactionPage/>
+    element: <TransactionPage />
   },
   {
     path: "/dashboard",
-    element: <DashboardPage/>
+    element: <DashboardPage />
   }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
+      <div><Toaster /></div>
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>,
