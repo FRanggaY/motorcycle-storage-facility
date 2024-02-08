@@ -10,6 +10,7 @@ import NavAppBar from '../components/Common/NavAppBar';
 import { toast } from 'react-hot-toast';
 import { ModalItem } from '../components/Fragments/Modals/ModalItem';
 import { ModalConfirmation } from '../components/Fragments/Modals/ModalGeneral';
+import Footer from '../components/Common/Footer';
 
 function ItemPage() {
   const dispatch = useDispatch();
@@ -202,6 +203,7 @@ function ItemPage() {
         isLoading={isLoading}
         handleClick={() => handleDelete(deleteItemId)}
       />
+      <Footer />
     </ThemeProvider>
   );
 }

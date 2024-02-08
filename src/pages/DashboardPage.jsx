@@ -9,6 +9,7 @@ import { fetchDataIfNeeded } from '../utils/fetchData';
 import { Box, Button, Card, CardContent, Container, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import NavAppBar from '../components/Common/NavAppBar';
 import Chart from "react-apexcharts";
+import Footer from '../components/Common/Footer';
 
 function DashboardPage() {
   const dispatch = useDispatch();
@@ -269,7 +270,6 @@ function DashboardPage() {
                   }}
                   series={dataGroupedItemBrand.map(item => item.total)}
                   type="donut"
-                  width="500"
                 />
               </Grid>
             }
@@ -299,7 +299,6 @@ function DashboardPage() {
                     data: dataGroupedCustomer.map(data => data.total)
                   }]}
                   type="bar"
-                  width="500"
                 />
               </Grid>
             }
@@ -328,7 +327,6 @@ function DashboardPage() {
                     data: dataMonthlyDateCome.map(data => data.total)
                   }]}
                   type="line"
-                  width="500"
                 />
               </Grid>
             }
@@ -336,7 +334,7 @@ function DashboardPage() {
 
         </Container>
       </Box>
-
+      <Footer />
     </ThemeProvider>
   );
 }
