@@ -18,8 +18,8 @@ export const TableItem = ({ onEdit, onDelete, itemsPerPageList }) => {
 
   const columns = [
     { id: 1, label: 'Brand' },
-    { id: 2, label: 'Title' },
-    { id: 3, label: 'Action' },
+    { id: 2, label: 'Kategori' },
+    { id: 3, label: 'Aksi' },
   ]
 
   useEffect(() => {
