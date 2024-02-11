@@ -20,24 +20,24 @@
 ![I Part 4 Image](public/asset/images/preview/item_page/item_page_delete.png)
 
 - Manage customer
-![I Part 1 Image](public/asset/images/preview/customer_page/customer_item_page.png)
+![C Part 1 Image](public/asset/images/preview/customer_page/customer_page.png)
 <br/>
-![I Part 2 Image](public/asset/images/preview/customer_page/customer_item_page_add.png)
+![C Part 2 Image](public/asset/images/preview/customer_page/customer_page_add.png)
 <br/>
-![I Part 3 Image](public/asset/images/preview/customer_page/customer_item_page_edit.png)
+![C Part 3 Image](public/asset/images/preview/customer_page/customer_page_edit.png)
 <br/>
-![I Part 4 Image](public/asset/images/preview/customer_page/customer_item_page_delete.png)
+![C Part 4 Image](public/asset/images/preview/customer_page/customer_page_delete.png)
 
 - Manage transaction
-![I Part 1 Image](public/asset/images/preview/transaction_page/transaction_item_page.png)
+![T Part 1 Image](public/asset/images/preview/transaction_page/transaction_page.png)
 <br/>
-![I Part 2 Image](public/asset/images/preview/transaction_page/transaction_item_page_add.png)
+![T Part 2 Image](public/asset/images/preview/transaction_page/transaction_page_add.png)
 <br/>
-![I Part 3 Image](public/asset/images/preview/transaction_page/transaction_item_page_edit.png)
+![T Part 3 Image](public/asset/images/preview/transaction_page/transaction_page_edit.png)
 <br/>
-![I Part 4 Image](public/asset/images/preview/transaction_page/transaction_item_page_delete.png)
+![T Part 4 Image](public/asset/images/preview/transaction_page/transaction_page_delete.png)
 <br/>
-![I Part 5 Image](public/asset/images/preview/transaction_page/transaction_item_page_view.png)
+![T Part 5 Image](public/asset/images/preview/transaction_page/transaction_page_view.png)
 
 - notification
 - confirmation
