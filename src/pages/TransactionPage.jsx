@@ -12,7 +12,7 @@ import NavAppBar from '../components/Common/NavAppBar';
 import { toast } from 'react-hot-toast';
 import { ModalConfirmation } from '../components/Fragments/Modals/ModalGeneral';
 import Footer from '../components/Common/Footer';
-import { ModalEditTransaction, ModalAddTransaction } from '../components/Fragments/Modals/ModalTransaction';
+import { ModalEditTransaction, ModalAddTransaction, ModalViewTransaction } from '../components/Fragments/Modals/ModalTransaction';
 import { getCurrentDateTimeFormatted } from '../utils/generateDatetime';
 
 function TransactionPage() {
@@ -43,6 +43,7 @@ function TransactionPage() {
   const transactionStatus = useSelector((state) => state.transaction.transactionStatus);
 
   const [openDialogAdd, setOpenDialogAdd] = useState(false);
+  const [openDialogView, setOpenDialogView] = useState(false);
   const [openDialogEdit, setOpenDialogEdit] = useState(false);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
@@ -63,6 +64,7 @@ function TransactionPage() {
   const handleCloseDialog = () => {
     setOpenDialogAdd(false);
     setOpenDialogEdit(false);
+    setOpenDialogView(false);
     // clear data
     setFormData({
       id: '',
@@ -220,6 +222,12 @@ function TransactionPage() {
     setEditTransactionId(data.id);
     setOpenDialogEdit(true);
   };
+  
+  const handleView = async (id) => {
+    const detail = await fetchTransaction(id);
+    setFormData(detail);
+    setOpenDialogView(true);
+  };
 
   const handleConfirmationDelete = async (itemId) => {
     handleDialogDelete();
@@ -262,7 +270,12 @@ function TransactionPage() {
             (+) Tambah
           </Button>
 
-          <TableTransaction onEdit={handleEdit} onDelete={handleConfirmationDelete} itemsPerPageList={itemsPerPageList} />
+          <TableTransaction 
+            onView={handleView} 
+            onEdit={handleEdit} 
+            onDelete={handleConfirmationDelete} 
+            itemsPerPageList={itemsPerPageList} 
+          />
 
         </Container>
       </Box>
@@ -305,6 +318,19 @@ function TransactionPage() {
           transactionStatus: transactionStatus
         }}
         setFormData={setFormData}
+      />
+      {/* modal for view */}
+      <ModalViewTransaction
+        open={openDialogView}
+        onClose={handleCloseDialog}
+        title={'View'}
+        formData={formData}
+        setIsLoading={isLoading}
+        items={{
+          dataItem: dataItem,
+          dataCustomer: dataCustomer,
+          transactionStatus: transactionStatus
+        }}
       />
       {/* modal delete */}
       <ModalConfirmation

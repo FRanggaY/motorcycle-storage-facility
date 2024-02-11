@@ -4,7 +4,7 @@ import { setCurrentPage, setItemsPerPage } from '../../redux/slices/transactionS
 import { fetchTransactions } from '../../api/transactionApi';
 import { Button, FormControl, MenuItem, Pagination, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-export const TableTransaction = ({ onEdit, onDelete, itemsPerPageList }) => {
+export const TableTransaction = ({ onView, onEdit, onDelete, itemsPerPageList }) => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.transaction.data);
   const currentPage = useSelector((state) => state.transaction.currentPage);
@@ -67,6 +67,7 @@ export const TableTransaction = ({ onEdit, onDelete, itemsPerPageList }) => {
                   }
                 </TableCell>
                 <TableCell>
+                  <Button sx={{ marginLeft: '5px' }} variant='contained' color='primary' onClick={() => onView(item.id)}>View</Button>
                   <Button sx={{ marginLeft: '5px' }} variant='contained' color='warning' onClick={() => onEdit(item)}>Edit</Button>
                   <Button sx={{ marginLeft: '5px' }} variant='contained' color='error' onClick={() => onDelete(item.id)}>Delete</Button>
                 </TableCell>

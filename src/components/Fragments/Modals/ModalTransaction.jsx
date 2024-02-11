@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, styled, Typography, Stack, Card, CardMedia, CardActions } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, styled, Typography, Stack, Card, CardMedia, CardActions, CardContent, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Divider } from '@mui/material';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-hot-toast';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -228,7 +228,7 @@ export const ModalEditTransaction = ({
       console.error('Error adding transaction image:', error);
     }
   };
-  
+
   const handleRemovePhoto = async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/api/v1/transaction-photo-location/${id}`, {
@@ -432,7 +432,7 @@ export const ModalEditTransaction = ({
                 {
                   formData.attachment?.length > 0 && formData.attachment.map((data) => {
                     return <Card key={data.id}>
-                      <CardMedia 
+                      <CardMedia
                         sx={{ width: 250, height: 250 }}
                         image={data.url_photo}
                         title={data.title}
@@ -458,7 +458,7 @@ export const ModalEditTransaction = ({
         </form>
       </DialogContent>
       {/* modal delete image */}
-      <ModalConfirmation 
+      <ModalConfirmation
         open={openDialogDeleteImage}
         onClose={handleCloseDialogDeleteImage}
         title={'Hapus'}
@@ -466,6 +466,97 @@ export const ModalEditTransaction = ({
         isLoading={isLoading}
         handleClick={() => handleRemovePhoto(deleteTransactionImageId)}
       />
+    </Dialog>
+  );
+};
+
+export const ModalViewTransaction = ({
+  open,
+  onClose,
+  title,
+  formData,
+  isLoading,
+}) => {
+  const columns = [
+    { id: 1, label: 'Harga Per Jam' },
+    { id: 2, label: 'Harga Per Hari' },
+    { id: 3, label: 'Harga Akhir' },
+  ]
+
+  return (
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle>
+        <span>{title}</span>
+        <IconButton style={{ float: "right" }} onClick={onClose}>
+          <CloseIcon color="primary" />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        <Card>
+          <CardContent>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              {formData.customer?.name}
+            </Typography>
+            <Typography variant="h5" component="div">
+              {formData.item?.title} {formData.plat_number && `- ${formData.plat_number}`}
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {formData.date_come} - {formData.date_out}
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {
+                formData.status === 'taken' ?
+                  <Button variant='contained' color='success'>taken</Button> :
+                  <Button variant='contained' color='primary'>reserved</Button>
+              }
+            </Typography>
+            <TableContainer>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    {
+                      columns.map((column) => {
+                        return <TableCell key={column.id}>{column.label}</TableCell>
+                      })
+                    }
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{formData.cost_hourly}</TableCell>
+                    <TableCell>{formData.cost_daily}</TableCell>
+                    <TableCell>{formData.cost_final}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Divider/>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              Catatan :
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {formData.notes}
+            </Typography>
+          </CardContent>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={2}
+            useFlexGap flexWrap="wrap"
+          >
+            {
+              formData.attachment?.length > 0 && formData.attachment.map((data) => {
+                return <Card key={data.id}>
+                  <CardMedia
+                    sx={{ width: 250, height: 250 }}
+                    image={data.url_photo}
+                    title={data.title}
+                  />
+                </Card>
+              })
+            }
+          </Stack>
+        </Card>
+      </DialogContent>
     </Dialog>
   );
 };
