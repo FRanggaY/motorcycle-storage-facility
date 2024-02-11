@@ -6,6 +6,43 @@
 
 ![Part 1 Image](public/asset/images/preview/landing_page/landing_page_part_one.png)
 
+Frontend Setup :
+- Node.js
+- React.js
+- Vite
+- Redux
+- ApexCharts
+- Material UI
+- React Hot Toast
+
+Want to contribute? Great!
+## Development
+
+### Installation
+
+Install package
+
+```sh
+npm install
+```
+
+Duplicate .env.example and renamed it to .env. for development renamed it to .env.development
+
+Running Application Development
+
+```sh
+npm run dev
+```
+
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
 ## Feature :
 - Monitoring
 ![D Part 1 Image](public/asset/images/preview/dashboard_page/dashboard_page.png)
@@ -56,37 +93,3 @@
 - notification
 - confirmation
 - interactive with modal flow
-
-Frontend Setup :
-- Node.js
-- React.js
-- Vite
-- Redux
-
-Want to contribute? Great!
-## Development
-
-### Installation
-
-Install package
-
-```sh
-npm install
-```
-
-Duplicate .env.example and renamed it to .env. for development renamed it to .env.development
-
-Running Application Development
-
-```sh
-npm run dev
-```
-
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
