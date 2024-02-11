@@ -39,7 +39,10 @@
 ![T Part 1 Image](public/asset/images/preview/transaction_page/transaction_page.png)
 <br/>
 
-![T Part 2 Image](public/asset/images/preview/transaction_page/transaction_page_add.png)
+![T Part 2.1 Image](public/asset/images/preview/transaction_page/transaction_page_add_case_one.png)
+<br/>
+
+![T Part 2.2 Image](public/asset/images/preview/transaction_page/transaction_page_add_case_two.png)
 <br/>
 
 ![T Part 3 Image](public/asset/images/preview/transaction_page/transaction_page_edit.png)
