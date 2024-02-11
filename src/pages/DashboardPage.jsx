@@ -248,6 +248,9 @@ function DashboardPage() {
           <Grid container spacing={2} sx={{ marginTop: '20px' }}>
             {dataGroupedCustomer.length > 0 &&
               <Grid item xs={12} sm={6}>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Frekuensi Transaksi per Brand
+                </Typography>
                 <Chart
                   options={{
                     labels: dataGroupedItemBrand.map(item => item.brand),
@@ -257,7 +260,7 @@ function DashboardPage() {
                       }
                     },
                     tooltip: {
-                      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
                         const brand = w.config.labels[seriesIndex];
                         const total = series[seriesIndex];
                         return (
@@ -275,6 +278,9 @@ function DashboardPage() {
             }
             {dataGroupedCustomer.length > 0 &&
               <Grid item xs={12} sm={6}>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Frekuensi Transaksi per Customer
+                </Typography>
                 <Chart style={{ color: 'black' }}
                   options={{
                     legend: {
@@ -286,7 +292,7 @@ function DashboardPage() {
                       categories: dataGroupedCustomer.map(data => data.name),
                     },
                     tooltip: {
-                      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
                         const category = w.globals.labels[dataPointIndex];
                         const value = series[seriesIndex][dataPointIndex];
                         return '<div class="arrow_box">' +
@@ -304,6 +310,9 @@ function DashboardPage() {
             }
             {dataMonthlyDateCome.length > 0 &&
               <Grid item xs={12} sm={6}>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Frekuensi Bulanan Transaksi Masuk
+                </Typography>
                 <Chart style={{ color: 'black' }}
                   options={{
                     legend: {
@@ -315,10 +324,10 @@ function DashboardPage() {
                       categories: dataMonthlyDateCome.map(data => data.month),
                     },
                     tooltip: {
-                      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
                         const value = series[seriesIndex][dataPointIndex];
                         return '<div class="arrow_box">' +
-                          '<span>' +  value + ' transaksi </span>' +
+                          '<span>' + value + ' transaksi </span>' +
                           '</div>';
                       }
                     }
