@@ -40,7 +40,7 @@ export const ModalCustomer = ({
                 required
                 id="no_hp"
                 name="no_hp"
-                label="No HP"
+                label="No. HP"
                 type="number"
                 value={formData.no_hp}
                 fullWidth

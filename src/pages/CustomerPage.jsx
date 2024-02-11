@@ -39,7 +39,7 @@ function CustomerPage() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     // clear data
-    setFormData({ brand: '', title: '' });
+    setFormData({ name: '', no_hp: '' });
   };
 
   const handleDialogDelete = () => {
@@ -104,7 +104,7 @@ function CustomerPage() {
         fetchCustomers(dispatch, customParams);
         toast.success('data berhasil disimpan');
         // clear data
-        setFormData({ brand: '', title: '' });
+        setFormData({ name: '', no_hp: '' });
         setOpenDialog(false);
       } else if (response.status === 400) {
         const message = await response.json();

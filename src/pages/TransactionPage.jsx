@@ -20,6 +20,8 @@ function TransactionPage() {
   const mode = useSelector((state) => state.theme.mode);
   const LPtheme = createTheme(getLPTheme(mode));
   const [formData, setFormData] = useState({
+    no_hp: '',
+    name: '',
     item_id: '',
     customer_id: '',
     date_come: getCurrentDateTimeFormatted(),
@@ -67,6 +69,8 @@ function TransactionPage() {
     setOpenDialogView(false);
     // clear data
     setFormData({
+      no_hp: '',
+      name: '',
       id: '',
       item_id: '',
       customer_id: '',
@@ -122,6 +126,8 @@ function TransactionPage() {
 
         // clear data
         setFormData({
+          no_hp: '',
+          name: '',
           item_id: '',
           customer_id: '',
           date_come: getCurrentDateTimeFormatted(),
@@ -150,8 +156,37 @@ function TransactionPage() {
     setIsLoading(false);
   }
 
+  async function createTransactionWithNewCustomer() {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/api/v1/customer`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.status === 201) {
+        const { data } = await response.json();
+        formData.customer_id = data.id;
+        createTransaction();
+        fetchCustomers(dispatch);
+      } else if (response.status === 400) {
+        const message = await response.json();
+        toast.error(message?.detail);
+      } else if (response.status === 404) {
+        toast.error('data tidak ditemukan');
+      } else if (response.status === 422) {
+        toast.error('ada kesalahan saat menginput data');
+      } else {
+        toast.error('ada masalah saat menyimpan data');
+      }
+    } catch (error) {
+      console.error('Error creating customer:', error);
+    }
+  }
+
   async function createTransaction() {
-    setIsLoading(true);
     try {
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/api/v1/transaction`, {
         method: 'POST',
@@ -166,6 +201,8 @@ function TransactionPage() {
         toast.success('data berhasil disimpan');
         // clear data
         setFormData({
+          no_hp: '',
+          name: '',
           item_id: '',
           customer_id: '',
           date_come: getCurrentDateTimeFormatted(),
@@ -191,6 +228,16 @@ function TransactionPage() {
     } catch (error) {
       console.error('Error creating transaction:', error);
     }
+  }
+
+  async function manageTransaction() {
+    setIsLoading(true);
+    if (formData.name && formData.no_hp) {
+      createTransactionWithNewCustomer()
+    } else {
+      // if already have customer
+      createTransaction();
+    }
     setIsLoading(false);
   }
 
@@ -200,7 +247,7 @@ function TransactionPage() {
     if (editTransactionId) {
       updateTransaction()
     } else {
-      createTransaction()
+      manageTransaction()
     }
   };
 
@@ -222,7 +269,7 @@ function TransactionPage() {
     setEditTransactionId(data.id);
     setOpenDialogEdit(true);
   };
-  
+
   const handleView = async (id) => {
     const detail = await fetchTransaction(id);
     setFormData(detail);
@@ -270,11 +317,11 @@ function TransactionPage() {
             (+) Tambah
           </Button>
 
-          <TableTransaction 
-            onView={handleView} 
-            onEdit={handleEdit} 
-            onDelete={handleConfirmationDelete} 
-            itemsPerPageList={itemsPerPageList} 
+          <TableTransaction
+            onView={handleView}
+            onEdit={handleEdit}
+            onDelete={handleConfirmationDelete}
+            itemsPerPageList={itemsPerPageList}
           />
 
         </Container>

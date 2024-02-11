@@ -1,9 +1,9 @@
-import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, styled, Typography, Stack, Card, CardMedia, CardActions, CardContent, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Divider } from '@mui/material';
+import { Button, Dialog, Checkbox, DialogContent, DialogTitle, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, styled, Typography, Stack, Card, CardMedia, CardActions, CardContent, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Divider, FormGroup, FormControlLabel } from '@mui/material';
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from 'react-hot-toast';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { fetchTransaction } from '../../../api/transactionApi';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { ModalConfirmation } from './ModalGeneral';
 
 export const ModalAddTransaction = ({
@@ -17,6 +17,11 @@ export const ModalAddTransaction = ({
   isLoading,
   items,
 }) => {
+  const [alreadyBooked, setAlreadyBooked] = useState(false);
+
+  const handleAlreadyBook = (event) => {
+    setAlreadyBooked(event.target.checked);
+  };
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>
@@ -28,28 +33,57 @@ export const ModalAddTransaction = ({
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2} sx={{ marginTop: '10px' }}>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="select-label-customer-id">Customer*</InputLabel>
-                <Select
-                  required
-                  labelId="select-label-customer-id"
-                  name="customer_id"
-                  id="select_customer_id"
-                  value={formData.customer_id}
-                  onChange={handleChange.general}
-                >
-                  {items.dataCustomer?.length > 0 &&
-                    items.dataCustomer?.map((data, i) => {
-                      return <MenuItem value={data.id} key={data.id}>
-                        {data.name}
-                      </MenuItem>
-                    })
-                  }
-                </Select>
-              </FormControl>
+            <Grid item xs={12} sm={12}>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox checked={alreadyBooked} />}
+                  label="Sudah pernah nitip?"
+                  onChange={handleAlreadyBook}
+                />
+              </FormGroup>
+              {alreadyBooked ? (
+                <FormControl fullWidth>
+                  <InputLabel id="select-label-customer-id">Customer*</InputLabel>
+                  <Select
+                    required
+                    labelId="select-label-customer-id"
+                    name="customer_id"
+                    id="select_customer_id"
+                    value={formData.customer_id}
+                    onChange={handleChange.general}
+                  >
+                    {items.dataCustomer?.length > 0 &&
+                      items.dataCustomer?.map((data, i) => {
+                        return <MenuItem value={data.id} key={data.id}>
+                          {data.name}
+                        </MenuItem>
+                      })
+                    }
+                  </Select>
+                </FormControl>
+              ) : (
+                <Fragment>
+                  <TextField
+                    fullWidth
+                    required
+                    label="Nama"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange.general}
+                  />
+                  <TextField
+                    fullWidth
+                    required
+                    label="No. HP"
+                    name="no_hp"
+                    type="number"
+                    value={formData.no_hp}
+                    onChange={handleChange.general}
+                  />
+                </Fragment>
+              )}
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <FormControl fullWidth>
                 <InputLabel id="select-label-item-id">Kategori Motor*</InputLabel>
                 <Select
@@ -530,7 +564,7 @@ export const ModalViewTransaction = ({
                 </TableBody>
               </Table>
             </TableContainer>
-            <Divider/>
+            <Divider />
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
               Catatan :
             </Typography>
