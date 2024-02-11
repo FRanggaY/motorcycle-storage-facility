@@ -28,7 +28,8 @@ function TransactionPage() {
     cost_daily: 0,
     notes: '',
     plat_number: '',
-    status: ''
+    status: '',
+    attachment: []
   });
   const [isLoading, setIsLoading] = useState(false);
   const [editTransactionId, setEditTransactionId] = useState(null);
@@ -64,6 +65,7 @@ function TransactionPage() {
     setOpenDialogEdit(false);
     // clear data
     setFormData({
+      id: '',
       item_id: '',
       customer_id: '',
       date_come: getCurrentDateTimeFormatted(),
@@ -72,7 +74,8 @@ function TransactionPage() {
       cost_daily: 0,
       notes: '',
       plat_number: '',
-      status: ''
+      status: '',
+      attachment: []
     });
     setEditTransactionId(null);
   };
@@ -125,7 +128,8 @@ function TransactionPage() {
           cost_daily: 0,
           notes: '',
           plat_number: '',
-          status: ''
+          status: '',
+          attachment: []
         });
         setOpenDialogEdit(false);
       } else if (response.status === 400) {
@@ -168,7 +172,8 @@ function TransactionPage() {
           cost_daily: 0,
           notes: '',
           plat_number: '',
-          status: ''
+          status: '',
+          attachment: []
         });
         setOpenDialogAdd(false);
       } else if (response.status === 400) {
@@ -200,15 +205,17 @@ function TransactionPage() {
   const handleEdit = async (data) => {
     const detail = await fetchTransaction(data.id);
     setFormData({
+      id: detail.id,
       item_id: detail.item.id,
       customer_id: detail.customer.id,
       date_come: detail.date_come,
-      date_out: detail.date_out ? data.date_out : '',
+      date_out: detail.date_out ? detail.date_out : '',
       cost_hourly: detail.cost_hourly,
       cost_daily: detail.cost_daily,
       notes: detail.notes,
       plat_number: detail.plat_number,
       status: detail.status,
+      attachment: detail.attachment
     });
     setEditTransactionId(data.id);
     setOpenDialogEdit(true);
@@ -297,6 +304,7 @@ function TransactionPage() {
           dataCustomer: dataCustomer,
           transactionStatus: transactionStatus
         }}
+        setFormData={setFormData}
       />
       {/* modal delete */}
       <ModalConfirmation

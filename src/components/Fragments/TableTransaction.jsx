@@ -59,7 +59,13 @@ export const TableTransaction = ({ onEdit, onDelete, itemsPerPageList }) => {
                 <TableCell>{item.date_come}</TableCell>
                 <TableCell>{item.date_out}</TableCell>
                 <TableCell>{item.cost_final}</TableCell>
-                <TableCell>{item.status}</TableCell>
+                <TableCell>
+                  {
+                    item.status === 'taken' ? 
+                    <Button variant='contained' color='success'>taken</Button> : 
+                    <Button variant='contained' color='primary'>reserved</Button>
+                  }
+                </TableCell>
                 <TableCell>
                   <Button sx={{ marginLeft: '5px' }} variant='contained' color='warning' onClick={() => onEdit(item)}>Edit</Button>
                   <Button sx={{ marginLeft: '5px' }} variant='contained' color='error' onClick={() => onDelete(item.id)}>Delete</Button>
