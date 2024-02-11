@@ -67,7 +67,7 @@ export default function Hero() {
             alignSelf: 'center',
             height: { xs: 200, sm: 700 },
             width: '100%',
-            backgroundImage: 'url("/asset/images/hero-default.png")',
+            backgroundImage: 'url("/asset/images/preview/hero_default.png")',
             backgroundSize: 'cover',
             borderRadius: '10px',
             outline: '1px solid',

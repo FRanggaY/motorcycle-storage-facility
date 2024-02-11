@@ -1,3 +1,73 @@
+# Motorcycle Storage Facility
+
+## Preview :
+![Part 1 Image](public/asset/images/preview/hero_default.png)
+<br/>
+![Part 1 Image](public/asset/images/preview/landing_page/landing_page_part_one.png)
+
+## Feature :
+- Monitoring
+![D Part 1 Image](public/asset/images/preview/dashboard_page/dashboard_page.png)
+<br/>
+
+- Manage item
+![I Part 1 Image](public/asset/images/preview/item_page/item_page.png)
+<br/>
+![I Part 2 Image](public/asset/images/preview/item_page/item_page_add.png)
+<br/>
+![I Part 3 Image](public/asset/images/preview/item_page/item_page_edit.png)
+<br/>
+![I Part 4 Image](public/asset/images/preview/item_page/item_page_delete.png)
+
+- Manage customer
+![I Part 1 Image](public/asset/images/preview/customer_page/customer_item_page.png)
+<br/>
+![I Part 2 Image](public/asset/images/preview/customer_page/customer_item_page_add.png)
+<br/>
+![I Part 3 Image](public/asset/images/preview/customer_page/customer_item_page_edit.png)
+<br/>
+![I Part 4 Image](public/asset/images/preview/customer_page/customer_item_page_delete.png)
+
+- Manage transaction
+![I Part 1 Image](public/asset/images/preview/transaction_page/transaction_item_page.png)
+<br/>
+![I Part 2 Image](public/asset/images/preview/transaction_page/transaction_item_page_add.png)
+<br/>
+![I Part 3 Image](public/asset/images/preview/transaction_page/transaction_item_page_edit.png)
+<br/>
+![I Part 4 Image](public/asset/images/preview/transaction_page/transaction_item_page_delete.png)
+<br/>
+![I Part 5 Image](public/asset/images/preview/transaction_page/transaction_item_page_view.png)
+
+- notification
+- confirmation
+- interactive with modal flow
+
+Frontend Setup :
+- Node.js
+- React.js
+- Vite
+- Redux
+
+Want to contribute? Great!
+## Development
+
+### Installation
+
+Install package
+
+```sh
+npm install
+```
+
+Duplicate .env.example and renamed it to .env. for development renamed it to .env.development
+
+Running Application Development
+
+```sh
+npm run dev
+```
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
